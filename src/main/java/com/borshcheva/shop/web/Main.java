@@ -25,9 +25,9 @@ public class Main {
         List<String> userTokens = new ArrayList<>();
 
         AllProductsRequestsServlet allProductsRequestsServlet = new AllProductsRequestsServlet(productService, userAuthService);
-        EditRequestsServlet editRequestsServlet = new EditRequestsServlet(productService);
-        DeleteRequestsServlet deleteRequestsServlet = new DeleteRequestsServlet(productService);
-        CreateRequestsServlet createRequestsServlet = new CreateRequestsServlet(productService);
+        EditRequestsServlet editRequestsServlet = new EditRequestsServlet(productService, userAuthService);
+        DeleteRequestsServlet deleteRequestsServlet = new DeleteRequestsServlet(productService, userAuthService);
+        CreateRequestsServlet createRequestsServlet = new CreateRequestsServlet(productService, userAuthService);
         RegistrationRequestsServlet registrationRequestsServlet = new RegistrationRequestsServlet(userService, userAuthService);
         LoginRequestsServlet loginRequestsServlet = new LoginRequestsServlet(userAuthService);
         HomePageRequestsServlet homePageRequestsServlet = new HomePageRequestsServlet();

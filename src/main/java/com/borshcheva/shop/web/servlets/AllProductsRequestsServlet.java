@@ -32,7 +32,7 @@ public class AllProductsRequestsServlet extends HttpServlet {
             PageGenerator pageGenerator = PageGenerator.instance();
             HashMap<String, Object> parameters = new HashMap<>();
 
-                parameters.put("products", products);
+            parameters.put("products", products);
 
             String page = pageGenerator.getPage("product-list.html", parameters);
             response.getWriter().write(page);
