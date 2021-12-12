@@ -14,7 +14,6 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
@@ -34,39 +33,6 @@
 
     </div>
 </nav>
-
-<div>
-    <a href="/products/create">create new </a>
-</div>
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Name</th>
-        <th scope="col">Price</th>
-        <th scope="col">Creation date</th>
-        <th></th>
-        <th></th>
-
-    </tr>
-    </thead>
-    <tbody>
-    <#list products as product>
-    <tr>
-
-        <th scope="row">${product.id}</th>
-        <td>${product.name}</td>
-        <td>${product.price}</td>
-        <td>${product.creationDate?datetime?string('dd-MM-yyyy')}</td>
-        <td>
-            <a href="/products/edit?id=${product.id}">edit</a>
-        </td>
-        <td>
-            <a href="/products/delete?id=${product.id}">delete</a>
-        </td>
-    </tr>
-    </#list>
-    </tbody>
-</table>
+<h1>Main page</h1>
 </body>
 </html>

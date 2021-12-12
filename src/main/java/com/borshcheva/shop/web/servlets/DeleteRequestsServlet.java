@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class DeleteRequestsServlet extends HttpServlet {
-    private ProductService productService;
+    private final ProductService productService;
 
     public DeleteRequestsServlet(ProductService productService) {
         this.productService = productService;

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class EditRequestsServlet extends HttpServlet {
-    private ProductService productService;
+    private final ProductService productService;
 
     public EditRequestsServlet(ProductService productService) {
         this.productService = productService;
@@ -21,7 +21,7 @@ public class EditRequestsServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
+                      HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         Product product = this.productService.getProduct(id);
 
@@ -36,7 +36,7 @@ public class EditRequestsServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         String name = request.getParameter("name");
         int price = Integer.parseInt(request.getParameter("price"));
         int id = Integer.parseInt(request.getParameter("id"));

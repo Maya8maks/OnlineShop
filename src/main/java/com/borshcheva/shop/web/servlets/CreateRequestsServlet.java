@@ -13,7 +13,7 @@ import java.util.Collections;
 
 
 public class CreateRequestsServlet extends HttpServlet {
-    private ProductService productService;
+    private final ProductService productService;
 
     public CreateRequestsServlet(ProductService productService) {
         this.productService = productService;
