@@ -48,7 +48,7 @@ public class RegistrationRequestsServlet extends HttpServlet {
             response.getWriter().write(page);
 
         } else {
-            String userToken = UUID.randomUUID().toString();
+            String userToken = userAuthService.getUserToken();
             Cookie cookie = new Cookie("user-token", userToken);
             userService.createUser(email, password, userToken);
             response.addCookie(cookie);

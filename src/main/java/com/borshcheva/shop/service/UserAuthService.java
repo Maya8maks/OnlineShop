@@ -45,4 +45,8 @@ public class UserAuthService {
     public void updateUserToken(int id, String userToken) {
         userDao.updateUserToken(id, userToken);
     }
+
+    public String getUserToken() {
+        return UUID.randomUUID().toString();
+    }
 }

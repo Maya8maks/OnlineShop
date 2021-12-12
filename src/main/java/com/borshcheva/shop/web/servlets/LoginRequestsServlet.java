@@ -40,7 +40,7 @@ public class LoginRequestsServlet extends HttpServlet {
         String password = request.getParameter("password");
         User user = userAuthService.findUser(email, password);
         if (user != null && user.getId() != null) {
-            String userToken = UUID.randomUUID().toString();
+            String userToken = userAuthService.getUserToken();
             Cookie cookie = new Cookie("user-token", userToken);
             userAuthService.updateUserToken(user.getId(), userToken);
             response.addCookie(cookie);
