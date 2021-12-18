@@ -5,7 +5,7 @@ import com.borshcheva.shop.entity.User;
 import com.borshcheva.shop.service.UserAuthService;
 import com.borshcheva.shop.service.UserService;
 import com.borshcheva.shop.web.util.PageGenerator;
-import javax.servlet.http.Cookie;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,14 +48,9 @@ public class RegistrationRequestsServlet extends HttpServlet {
             response.getWriter().write(page);
 
         } else {
-            String userToken = userAuthService.getUserToken();
-            Cookie cookie = new Cookie("user-token", userToken);
-            userService.createUser(email, password, userToken);
-            response.addCookie(cookie);
+            userService.createUser(email, password);
             response.sendRedirect("/products");
         }
-
-
     }
 
 }

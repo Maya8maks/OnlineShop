@@ -3,10 +3,8 @@ package com.borshcheva.shop.web.servlets;
 
 import com.borshcheva.shop.entity.Product;
 import com.borshcheva.shop.service.ProductService;
-import com.borshcheva.shop.service.UserAuthService;
 import com.borshcheva.shop.web.util.PageGenerator;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,11 +13,9 @@ import java.util.HashMap;
 
 public class EditRequestsServlet extends HttpServlet {
     private final ProductService productService;
-    private final UserAuthService userAuthService;
 
-    public EditRequestsServlet(ProductService productService, UserAuthService userAuthService) {
+    public EditRequestsServlet(ProductService productService) {
         this.productService = productService;
-        this.userAuthService = userAuthService;
     }
 
     @Override
@@ -41,16 +37,12 @@ public class EditRequestsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (userAuthService.isAuth(request)) {
             String name = request.getParameter("name");
             int price = Integer.parseInt(request.getParameter("price"));
             int id = Integer.parseInt(request.getParameter("id"));
             productService.update(id, name, price);
 
             response.sendRedirect("/products");
-        } else {
-            response.sendRedirect("/login");
-        }
 
     }
 }

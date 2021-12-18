@@ -4,7 +4,6 @@ import com.borshcheva.shop.entity.User;
 import com.borshcheva.shop.service.UserAuthService;
 import com.borshcheva.shop.web.util.PageGenerator;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,14 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.UUID;
+import java.util.List;
 
 public class LoginRequestsServlet extends HttpServlet {
 
     private final UserAuthService userAuthService;
+    private final List<String> userTokens;
 
-    public LoginRequestsServlet(UserAuthService userAuthService) {
+    public LoginRequestsServlet(UserAuthService userAuthService, List<String> userTokens) {
         this.userAuthService = userAuthService;
+        this.userTokens = userTokens;
     }
 
     @Override
@@ -41,8 +42,8 @@ public class LoginRequestsServlet extends HttpServlet {
         User user = userAuthService.findUser(email, password);
         if (user != null && user.getId() != null) {
             String userToken = userAuthService.getUserToken();
+            userTokens.add(userToken);
             Cookie cookie = new Cookie("user-token", userToken);
-            userAuthService.updateUserToken(user.getId(), userToken);
             response.addCookie(cookie);
             response.sendRedirect("/products");
 

@@ -3,9 +3,9 @@ package com.borshcheva.shop.dao;
 
 import com.borshcheva.shop.dao.jdbc.mapper.ProductRowMapper;
 import com.borshcheva.shop.entity.Product;
-
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class JdbcProductDao implements ProductDao {
@@ -35,19 +35,19 @@ public class JdbcProductDao implements ProductDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public Product findById(int id) {
-        try (Connection connection = getConnection();) {
+        try (Connection connection = getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(FIND_BY_ID_SQL)
+        ) {
 
-            PreparedStatement prepareStatement = connection.prepareStatement(FIND_BY_ID_SQL);
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
             resultSet.next();
-            Product product = PRODUCT_ROW_MAPPER.mapRow(resultSet);
-            return product;
+            return PRODUCT_ROW_MAPPER.mapRow(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,8 +58,8 @@ public class JdbcProductDao implements ProductDao {
     @Override
     public void delete(int id) {
         try (Connection connection = getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(DELETE_BY_ID)
         ) {
-            PreparedStatement prepareStatement = connection.prepareStatement(DELETE_BY_ID);
             prepareStatement.setInt(1, id);
             prepareStatement.execute();
 
@@ -71,8 +71,9 @@ public class JdbcProductDao implements ProductDao {
 
     @Override
     public void update(int id, String name, int price) {
-        try (Connection connection = getConnection();) {
-            PreparedStatement prepareStatement = connection.prepareStatement(UPDATE);
+        try (Connection connection = getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(UPDATE)
+        ) {
             prepareStatement.setString(1, name);
             prepareStatement.setInt(2, price);
             prepareStatement.setInt(3, id);
@@ -84,8 +85,8 @@ public class JdbcProductDao implements ProductDao {
     }
 
     public void create(String name, int price) {
-        try (Connection connection = getConnection();) {
-            PreparedStatement prepareStatement = connection.prepareStatement(INSERT);
+        try (Connection connection = getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(INSERT)) {
             prepareStatement.setString(1, name);
             prepareStatement.setInt(2, price);
 

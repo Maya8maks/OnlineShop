@@ -6,6 +6,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -22,31 +23,23 @@ public class UserAuthService {
     }
 
 
-    public boolean isAuth(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("user-token")) {
-                    User user = userDao.findUserByToken(cookie.getValue());
-                    if (user != null)  {
-                        return true;
+    public boolean isAuth(Cookie[] cookies, List<String> userTokens) {
 
+        if(cookies != null){
+            for (Cookie cookie : cookies){
+                if(cookie.getName().equals("user-token")){
+                    if(userTokens.contains(cookie.getValue())) {
+                        return true;
                     }
                 }
             }
         }
         return false;
     }
-    public User findUserByToken(String token) {
-        return userDao.findUserByToken(token);
-    }
 
-
-    public void updateUserToken(int id, String userToken) {
-        userDao.updateUserToken(id, userToken);
-    }
 
     public String getUserToken() {
         return UUID.randomUUID().toString();
     }
+
 }

@@ -2,7 +2,6 @@ package com.borshcheva.shop.web.servlets;
 
 
 import com.borshcheva.shop.service.ProductService;
-import com.borshcheva.shop.service.UserAuthService;
 import com.borshcheva.shop.web.util.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -15,11 +14,11 @@ import java.util.Collections;
 
 public class CreateRequestsServlet extends HttpServlet {
     private final ProductService productService;
-    private final UserAuthService userAuthService;
 
-    public CreateRequestsServlet(ProductService productService, UserAuthService userAuthService) {
+
+    public CreateRequestsServlet(ProductService productService) {
         this.productService = productService;
-        this.userAuthService = userAuthService;
+
     }
 
     @Override
@@ -36,17 +35,13 @@ public class CreateRequestsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (userAuthService.isAuth(request)) {
+
             String name = request.getParameter("name");
             int price = Integer.parseInt(request.getParameter("price"));
 
             productService.create(name, price);
 
             response.sendRedirect("/products");
-        } else {
-            response.sendRedirect("/login");
-        }
-
 
     }
 

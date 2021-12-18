@@ -9,20 +9,19 @@ import java.util.UUID;
 
 public class UserService {
 
-    private UserDao userDao;
+    private final UserDao userDao;
 
     public UserService(UserDao userDao) {
         this.userDao = userDao;
     }
 
-    public void createUser(String email, String password, String token) {
+    public void createUser(String email, String password) {
         String sole = UUID.randomUUID().toString();
         String passwordHash = (DigestUtils.md5Hex(sole + password));
         User user = User.builder().
                 email(email).
                 password(passwordHash).
                 sole(sole).
-                token(token).
                 build();
         userDao.create(user);
     }

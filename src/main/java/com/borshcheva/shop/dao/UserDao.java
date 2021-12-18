@@ -7,7 +7,4 @@ public interface UserDao {
 
     void create(User user);
 
-    User findUserByToken(String value);
-
-    void updateUserToken(int id, String userToken);
 }

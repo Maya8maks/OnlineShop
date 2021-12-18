@@ -9,19 +9,17 @@ import java.util.List;
 
 public class ProductService {
 
-    private ProductDao productDao;
+    private final ProductDao productDao;
 
     public ProductService(ProductDao productDao) {
         this.productDao = productDao;
     }
     public List<Product> getAllProducts() {
-        List<Product> products = productDao.findAll();
-        return products;
+        return productDao.findAll();
     }
 
     public Product getProduct(int id) {
-        Product product = productDao.findById(id);
-        return product;
+        return productDao.findById(id);
     }
 
     public void deleteProduct(int id) {

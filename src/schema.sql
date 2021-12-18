@@ -5,4 +5,4 @@ CREATE TABLE product (
     creation_date Timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE users (id SERIAL, email varchar(255), password varchar(255), sole varchar(255), token varchar(255));
+CREATE TABLE users (id SERIAL, email varchar(255), password varchar(255), sole varchar(255));

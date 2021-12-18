@@ -7,10 +7,13 @@ import com.borshcheva.shop.service.UserAuthService;
 import com.borshcheva.shop.service.UserService;
 import com.borshcheva.shop.web.servlets.*;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import javax.servlet.DispatcherType;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 public class Main {
@@ -24,14 +27,13 @@ public class Main {
         UserAuthService userAuthService = new UserAuthService(jdbcUserDao);
         List<String> userTokens = new ArrayList<>();
 
-        AllProductsRequestsServlet allProductsRequestsServlet = new AllProductsRequestsServlet(productService, userAuthService);
-        EditRequestsServlet editRequestsServlet = new EditRequestsServlet(productService, userAuthService);
-        DeleteRequestsServlet deleteRequestsServlet = new DeleteRequestsServlet(productService, userAuthService);
-        CreateRequestsServlet createRequestsServlet = new CreateRequestsServlet(productService, userAuthService);
+        AllProductsRequestsServlet allProductsRequestsServlet = new AllProductsRequestsServlet(productService);
+        EditRequestsServlet editRequestsServlet = new EditRequestsServlet(productService);
+        DeleteRequestsServlet deleteRequestsServlet = new DeleteRequestsServlet(productService);
+        CreateRequestsServlet createRequestsServlet = new CreateRequestsServlet(productService);
         RegistrationRequestsServlet registrationRequestsServlet = new RegistrationRequestsServlet(userService, userAuthService);
-        LoginRequestsServlet loginRequestsServlet = new LoginRequestsServlet(userAuthService);
-        HomePageRequestsServlet homePageRequestsServlet = new HomePageRequestsServlet();
-        LogoutRequestsServlet logoutRequestsServlet = new LogoutRequestsServlet(userAuthService);
+        LoginRequestsServlet loginRequestsServlet = new LoginRequestsServlet(userAuthService, userTokens);
+        LogoutRequestsServlet logoutRequestsServlet = new LogoutRequestsServlet();
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
@@ -42,7 +44,7 @@ public class Main {
         context.addServlet(new ServletHolder(registrationRequestsServlet), "/registration");
         context.addServlet(new ServletHolder(loginRequestsServlet), "/login");
         context.addServlet(new ServletHolder(logoutRequestsServlet), "/logout");
-        context.addServlet(new ServletHolder(homePageRequestsServlet), "/");
+        context.addFilter(new FilterHolder(new SecurityFilter(userTokens, userAuthService)), "/*", (EnumSet.of(DispatcherType.REQUEST)));
 
         Server server = new Server(8080);
         server.setHandler(context);

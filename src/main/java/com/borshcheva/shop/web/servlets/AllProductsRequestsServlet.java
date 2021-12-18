@@ -15,18 +15,16 @@ import java.util.List;
 
 public class AllProductsRequestsServlet extends HttpServlet {
     private final ProductService productService;
-    private final UserAuthService userAuthService;
 
-    public AllProductsRequestsServlet(ProductService productService, UserAuthService userAuthService) {
+    public AllProductsRequestsServlet(ProductService productService) {
         this.productService = productService;
-        this.userAuthService = userAuthService;
+
     }
 
     @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws IOException {
 
-        if (userAuthService.isAuth(request)) {
             List<Product> products = this.productService.getAllProducts();
 
             PageGenerator pageGenerator = PageGenerator.instance();
@@ -39,9 +37,6 @@ public class AllProductsRequestsServlet extends HttpServlet {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
 
-        } else {
-            response.sendRedirect("/login");
-        }
     }
 
 }
